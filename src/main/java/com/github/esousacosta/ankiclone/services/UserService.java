@@ -1,10 +1,12 @@
 package com.github.esousacosta.ankiclone.services;
 
 import com.github.esousacosta.ankiclone.models.card.*;
+import com.github.esousacosta.ankiclone.models.dtos.UserDto;
 import com.github.esousacosta.ankiclone.models.user.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class UserService {
@@ -14,8 +16,16 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User getUserById(int id) {
-        return userRepository.findById(id);
+    public User createUser(UserDto user) {
+        return userRepository.createUser(user.firstName(), user.lastName(), user.userName());
+    }
+
+    public User getUserById(int id) throws NoSuchElementException {
+        User user = userRepository.findById(id);
+        if (user == null) {
+            throw new NoSuchElementException("user with ID " + id + " not found.");
+        }
+        return user;
     }
 
     public List<User> getAllUsers() {
