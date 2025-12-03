@@ -1,5 +1,6 @@
 package com.github.esousacosta.ankiclone.models.card;
 
+import com.github.esousacosta.ankiclone.models.deck.Deck;
 import com.github.esousacosta.ankiclone.models.user.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,6 +21,9 @@ public class Card {
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "deck_id", referencedColumnName = "id")
+    private Deck deck;
     @Column(name = "front", nullable = false)
     private String front;
     @Column(name = "back", nullable = false)

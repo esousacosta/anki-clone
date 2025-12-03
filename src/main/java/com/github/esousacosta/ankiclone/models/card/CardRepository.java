@@ -10,5 +10,5 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public interface CardRepository extends JpaRepository<Card, Integer> {
-    public List<Card> findByUserId(int userId);
+  List<Card> findByUserId(int userId);
 }

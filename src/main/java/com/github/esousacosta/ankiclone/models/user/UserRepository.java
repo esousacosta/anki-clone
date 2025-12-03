@@ -9,7 +9,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
-    static final AtomicInteger ID_GENERATOR = new AtomicInteger();
 
     public final User createUser(String firstName, String lastName, String userName) {
         int id = ID_GENERATOR.incrementAndGet();
