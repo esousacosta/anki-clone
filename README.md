@@ -16,3 +16,14 @@ To run this project, follow these steps:
    ```
    http://localhost:8080
    ```
+
+# Inspecting the database
+To inspect the database, you can use the following command to access the database container:
+    ```
+    docker exec -it <database_container_name> psql -U <username> -d <database_name>
+    ``` 
+
+Example:
+    ```
+    docker exec -it anki-clone-postgres-1 psql -U edesousacosta -d anki_clone_db
+    ```
