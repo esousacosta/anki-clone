@@ -21,10 +21,10 @@ CREATE TABLE decks (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT,
-    user_id BIGINT NOT NULL,
+    owner_id BIGINT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_deck_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    CONSTRAINT fk_deck_user FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 -- Create cards table
@@ -43,12 +43,12 @@ CREATE TABLE cards (
     last_reviewed TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_card_deck FOREIGN KEY (deck_id) REFERENCES decks(id) ON DELETE CASCADE
+    CONSTRAINT fk_card_deck FOREIGN KEY (deck_id) REFERENCES decks(id) ON DELETE CASCADE,
     CONSTRAINT fk_card_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 -- Create indexes for better query performance
-CREATE INDEX idx_decks_user_id ON decks(user_id);
+CREATE INDEX idx_decks_user_id ON decks(owner_id);
 CREATE INDEX idx_cards_deck_id ON cards(deck_id);
 CREATE INDEX idx_cards_user_id ON cards(user_id);
 CREATE INDEX idx_cards_next_review ON cards(next_review_date);

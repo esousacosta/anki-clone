@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: postgres:{latest}
+    image: postgres
     environment:
       POSTGRES_DB: anki_clone_db
       POSTGRES_USER: edesousacosta

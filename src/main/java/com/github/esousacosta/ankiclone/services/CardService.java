@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class CardService {
@@ -16,11 +17,11 @@ public class CardService {
     }
 
     public Card getCardById(int id) throws NoSuchElementException{
-        Card card = cardRepository.findById(id);
-        if (card == null) {
+        Optional<Card> card = cardRepository.findById(id);
+        if (card.isEmpty()) {
             throw new NoSuchElementException("card with ID " + id + " not found.");
         }
-        return card;
+        return card.get();
     }
 
     public List<Card> getAllCards() {

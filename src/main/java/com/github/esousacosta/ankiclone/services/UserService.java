@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -17,15 +18,16 @@ public class UserService {
     }
 
     public User createUser(UserDto user) {
-        return userRepository.createUser(user.firstName(), user.lastName(), user.userName());
+//        return userRepository.createUser(user.firstName(), user.lastName(), user.userName());
+          return null;
     }
 
     public User getUserById(int id) throws NoSuchElementException {
-        User user = userRepository.findById(id);
-        if (user == null) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isEmpty()) {
             throw new NoSuchElementException("user with ID " + id + " not found.");
         }
-        return user;
+        return user.get();
     }
 
     public List<User> getAllUsers() {
