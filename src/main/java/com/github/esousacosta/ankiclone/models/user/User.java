@@ -22,6 +22,13 @@ public class User{
     private String lastName;
     @Column(name = "username", nullable = false, unique = true)
     private String username;
+    private String password;
+    @Column(nullable = false, unique = true)
+    private String email;
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
+    @Column(name = "updated_at", nullable = true)
+    private LocalDateTime updatedAt;
     @Column(name = "last_login_date", nullable = true)
     private LocalDateTime lastLoginDate;
 }

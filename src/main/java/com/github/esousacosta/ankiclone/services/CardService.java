@@ -1,7 +1,7 @@
 package com.github.esousacosta.ankiclone.services;
 
 import com.github.esousacosta.ankiclone.models.card.Card;
-import com.github.esousacosta.ankiclone.models.card.CardRepository;
+import com.github.esousacosta.ankiclone.repositories.CardRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

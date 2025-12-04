@@ -1,8 +1,8 @@
 package com.github.esousacosta.ankiclone.services;
 
-import com.github.esousacosta.ankiclone.models.card.*;
 import com.github.esousacosta.ankiclone.models.dtos.UserDto;
 import com.github.esousacosta.ankiclone.models.user.*;
+import com.github.esousacosta.ankiclone.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

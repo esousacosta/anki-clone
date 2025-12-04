@@ -1,12 +1,7 @@
-package com.github.esousacosta.ankiclone.models.user;
+package com.github.esousacosta.ankiclone.repositories;
 
+import com.github.esousacosta.ankiclone.models.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 

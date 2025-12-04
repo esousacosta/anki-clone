@@ -30,8 +30,11 @@ public class Deck {
   private int id;
   @Column(name = "name", nullable = false)
   private String name;
+  @Column(name = "description", nullable = true)
   private String description;
+  @Column(name = "created_at", nullable = false)
   private LocalDateTime createdAt;
+  @Column(name = "updated_at", nullable = true)
   private LocalDateTime updatedAt;
   @ManyToOne(optional = false)
   @JoinColumn(name = "owner_id", referencedColumnName = "id")
