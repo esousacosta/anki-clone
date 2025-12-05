@@ -19,9 +19,9 @@ public class UserService {
 
     public User saveUser(UserDto user) throws IllegalArgumentException{
         User newUser = new User();
-        newUser.setFirstName(user.firstName());
-        newUser.setLastName(user.lastName());
-        newUser.setUsername(user.userName());
+        newUser.setFirstName(user.getFirstName());
+        newUser.setLastName(user.getLastName());
+        newUser.setUsername(user.getUsername());
 
         return userRepository.save(newUser);
     }

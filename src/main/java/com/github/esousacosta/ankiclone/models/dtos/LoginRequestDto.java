@@ -9,18 +9,15 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class UserDto {
-  @NotBlank(message = "The user must have a non-empty first name")
-  private String firstName;
-  private String lastName;
-  @NotBlank(message = "The user must have a non-empty username")
-  private String username;
-  @NotBlank(message = "The user must have a non-empty password")
+@AllArgsConstructor
+public class LoginRequestDto {
+  @NotBlank(message = "Username or Email is required for login")
+  private String usernameOrEmail;
+
+  @NotBlank(message = "Password is required for login")
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private String password;
-  private String email;
 }
