@@ -36,6 +36,14 @@ public class ControllerExceptionHandler {
         return ResponseEntity.badRequest().body(response);
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse> illegalArgumentHandler(IllegalArgumentException ex) {
+      ErrorResponse response = ErrorResponse.create(ex, HttpStatus.BAD_REQUEST, ex.getMessage());
+      return ResponseEntity.badRequest().body(response);
+    }
+
+
+
     private static ValidationError toValidationError(FieldError fieldError) {
         return new ValidationError(fieldError.getField(), fieldError.getDefaultMessage(), fieldError.getCode());
     }

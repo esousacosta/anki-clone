@@ -2,6 +2,7 @@ package com.github.esousacosta.ankiclone.controller;
 
 import com.github.esousacosta.ankiclone.models.dtos.LoginRequestDto;
 import com.github.esousacosta.ankiclone.models.dtos.UserDto;
+import com.github.esousacosta.ankiclone.services.AuthService;
 import com.github.esousacosta.ankiclone.services.UserService;
 import com.github.esousacosta.ankiclone.models.user.User;
 import jakarta.validation.Valid;
@@ -17,9 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class AuthController {
   private final UserService userService;
+  private final AuthService authService;
 
-  public AuthController(UserService userService) {
+  public AuthController(UserService userService, AuthService authService) {
     this.userService = userService;
+    this.authService = authService;
   }
 
   @PostMapping(path = "/register")
@@ -35,7 +38,8 @@ public class AuthController {
   public String loginUser(@RequestBody @Valid LoginRequestDto loginRequest) {
     log.info("Auth - Login endpoint called for user: {}", loginRequest.getUsernameOrEmail());
     // Authentication logic would go here
-    return "Login successful for user: " + loginRequest.getUsernameOrEmail();
+    return authService.authenticate(loginRequest);
+//    return "Login successful for user: " + loginRequest.getUsernameOrEmail();
   }
 
 }
