@@ -16,6 +16,10 @@ public class CardService {
         this.cardRepository = cardRepository;
     }
 
+    public Card saveCard(Card card) {
+      return cardRepository.save(card);
+    }
+
     public Card getCardById(int id) throws NoSuchElementException{
         Optional<Card> card = cardRepository.findById(id);
         if (card.isEmpty()) {

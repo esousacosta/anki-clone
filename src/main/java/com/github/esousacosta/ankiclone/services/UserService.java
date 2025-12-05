@@ -17,9 +17,13 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User createUser(UserDto user) {
-//        return userRepository.createUser(user.firstName(), user.lastName(), user.userName());
-          return null;
+    public User saveUser(UserDto user) throws IllegalArgumentException{
+        User newUser = new User();
+        newUser.setFirstName(user.firstName());
+        newUser.setLastName(user.lastName());
+        newUser.setUsername(user.userName());
+
+        return userRepository.save(newUser);
     }
 
     public User getUserById(int id) throws NoSuchElementException {
