@@ -1,21 +1,29 @@
 package com.github.esousacosta.ankiclone.utils.security;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
+
 import javax.crypto.SecretKey;
 
 import java.nio.charset.StandardCharsets;
 
 import java.util.Date;
+import java.util.NoSuchElementException;
 
+@Slf4j
 public class JwtUtil {
   private final SecretKey key;
   private final long expirationMillis;
 
   public JwtUtil(String secret, long expirationMillis) {
-    this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+    byte[] secretBytes = secret.getBytes(StandardCharsets.UTF_8);
+    if (secret == null || secretBytes.length < 32) {
+      throw new IllegalArgumentException("JWT secret must be at least 256 bits (32 bytes) long.");
+    }
+    this.key = Keys.hmacShaKeyFor(secretBytes);
     this.expirationMillis = expirationMillis;
   }
 
@@ -25,12 +33,12 @@ public class JwtUtil {
         .setSubject(username)
         .setIssuedAt(new Date(now))
         .setExpiration(new Date(now + expirationMillis))
-        .signWith(key, SignatureAlgorithm.HS256)
+        .signWith(key)
         .compact();
   }
 
-  public Claims extractAllClaimsFromToken(String token) {
-    return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+  private Claims extractAllClaimsFromToken(String token) {
+    return Jwts.parser().setSigningKey(key).build().parseClaimsJws(token).getBody();
   }
 
   public String extractUsernameFromToken(String token) {
@@ -47,7 +55,14 @@ public class JwtUtil {
     try {
       String tokenUsername = extractUsernameFromToken(token);
       return tokenUsername != null && tokenUsername.equals(username) && !isTokenExpired(token);
-    } catch (Exception e) {
+    } catch (ExpiredJwtException e) {
+      log.error("JWT token has expired: {}", e.getMessage());
+      throw new IllegalArgumentException("Session has expired. Please log in again.");
+    } catch (NoSuchElementException e) {
+      throw new IllegalArgumentException("Invalid username or password.");
+    }
+    catch (Exception e) {
+      log.debug("Invalid JWT token: {}", e.getMessage());
       return false;
     }
   }

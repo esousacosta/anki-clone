@@ -38,7 +38,7 @@ public class AuthController {
   public String loginUser(@RequestBody @Valid LoginRequestDto loginRequest) {
     log.info("Auth - Login endpoint called for user: {}", loginRequest.getUsernameOrEmail());
     // Authentication logic would go here
-    return authService.authenticate(loginRequest);
+    return authService.createSession(loginRequest);
 //    return "Login successful for user: " + loginRequest.getUsernameOrEmail();
   }
 
