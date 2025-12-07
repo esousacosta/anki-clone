@@ -39,7 +39,7 @@ CREATE TABLE cards (
     interval_days INTEGER DEFAULT 0,
     times_reviewed INTEGER DEFAULT 0,
     next_review_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    was_last_attempt_correct BOOLEAN,
+    was_last_attempt_correct BOOLEAN DEFAULT FALSE,
     last_reviewed TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

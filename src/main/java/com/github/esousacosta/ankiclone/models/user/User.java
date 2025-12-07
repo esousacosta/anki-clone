@@ -1,5 +1,6 @@
 package com.github.esousacosta.ankiclone.models.user;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,6 +23,9 @@ public class User{
     private String lastName;
     @Column(name = "username", nullable = false, unique = true)
     private String username;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     @Column(nullable = false, unique = true)
     private String email;

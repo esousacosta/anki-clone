@@ -2,6 +2,7 @@ package com.github.esousacosta.ankiclone.controller;
 
 import com.github.esousacosta.ankiclone.models.card.Card;
 import com.github.esousacosta.ankiclone.services.CardService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,8 @@ public class CardController {
 
     @GetMapping
     public List<Card> getAllCards() {
-        return cardService.getAllCards();
+      String username = SecurityContextHolder.getContext().getAuthentication().getName();
+      return cardService.getCardsByUsername(username);
     }
 
     @GetMapping(path = "{id}")

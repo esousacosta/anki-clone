@@ -1,7 +1,7 @@
 -- Insert sample users
 INSERT INTO users (first_name, last_name, username, email, password, created_at) VALUES
-('John', 'Doe', 'john_doe', 'john@example.com', '$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG', CURRENT_TIMESTAMP),
-('Jane', 'Smith', 'jane_smith', 'jane@example.com', '$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG', CURRENT_TIMESTAMP);
+('John', 'Doe', 'john_doe', 'john@example.com', '$2a$12$SDWURpRW.bY9okZy.hrmpOim9TOpDO9.y5ETvxGci9o9AZTitictK', CURRENT_TIMESTAMP),
+('Jane', 'Smith', 'jane_smith', 'jane@example.com', '$2a$12$SDWURpRW.bY9okZy.hrmpOim9TOpDO9.y5ETvxGci9o9AZTitictK', CURRENT_TIMESTAMP);
 
 -- Insert sample decks
 INSERT INTO decks (name, description, created_at, owner_id) VALUES
