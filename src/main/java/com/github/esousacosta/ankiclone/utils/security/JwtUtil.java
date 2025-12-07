@@ -58,14 +58,13 @@ public class JwtUtil {
     tokenBlacklistService.blacklistToken(token);
   }
 
-  public boolean isTokenValid(String token, String username) {
+  public boolean isTokenValid(String token) {
     if (tokenBlacklistService.isTokenBlacklisted(token)) {
       log.info("JWT token is blacklisted.");
       return false;
     }
     try {
-      String tokenUsername = extractUsernameFromToken(token);
-      return tokenUsername != null && tokenUsername.equals(username) && !isTokenExpired(token);
+      return !isTokenExpired(token);
     } catch (ExpiredJwtException e) {
       log.error("JWT token has expired: {}", e.getMessage());
       throw new IllegalArgumentException("Session has expired. Please log in again.");

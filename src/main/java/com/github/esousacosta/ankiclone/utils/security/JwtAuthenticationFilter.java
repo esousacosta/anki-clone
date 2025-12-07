@@ -31,10 +31,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     if (header != null && header.startsWith("Bearer ")) {
       String token = header.substring(7);
       try {
+        // Use this to validate the token structure and expiration
         String username = jwtUtil.extractUsernameFromToken(token);
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-          User user = userService.getUserByUsername(username);
-          if (user != null && jwtUtil.isTokenValid(token, user.getUsername())) {
+          if (jwtUtil.isTokenValid(token)) {
+            User user = userService.getUserByUsername(username);
             UserDetails userDetails = org.springframework.security.core.userdetails.User
                 .withUsername(user.getUsername())
                 .password(user.getPassword())
