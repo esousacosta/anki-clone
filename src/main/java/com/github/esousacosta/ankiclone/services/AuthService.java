@@ -3,6 +3,7 @@ package com.github.esousacosta.ankiclone.services;
 import com.github.esousacosta.ankiclone.models.dtos.LoginRequestDto;
 import com.github.esousacosta.ankiclone.models.user.User;
 import com.github.esousacosta.ankiclone.utils.security.JwtUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,12 +33,29 @@ public class AuthService {
       // In a real application, you would return a JWT or session token here
       log.info("Password authentication successful for user: {}", user.getUsername());
       return jwtUtil.generateToken(user.getUsername());
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       log.info("Authentication failed for user: {}", loginRequest.getUsernameOrEmail());
       log.info("Error: {}", e.getMessage());
       throw new IllegalArgumentException("Invalid username or password.");
     }
+  }
 
+  public String logoutUser(HttpServletRequest request) {
+    String token = extractTokenFromRequest(request);
+    if (token != null) {
+      jwtUtil.invalidateToken(token);
+      log.info("User logged out successfully.");
+      return "User logged out successfully.";
+    }
+    log.warn("Logout attempt with missing or invalid Authorization header");
+    return "No valid token found in request.";
+  }
+
+  private String extractTokenFromRequest(HttpServletRequest request) {
+    String header = request.getHeader("Authorization");
+    if (header == null && !header.startsWith("Bearer ")) {
+      return null;
+    }
+    return header.substring(7);
   }
 }

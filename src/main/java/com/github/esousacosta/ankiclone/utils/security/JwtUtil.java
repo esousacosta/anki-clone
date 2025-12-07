@@ -1,5 +1,6 @@
 package com.github.esousacosta.ankiclone.utils.security;
 
+import com.github.esousacosta.ankiclone.services.TokenBlacklistService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -17,14 +18,16 @@ import java.util.NoSuchElementException;
 public class JwtUtil {
   private final SecretKey key;
   private final long expirationMillis;
+  private final TokenBlacklistService tokenBlacklistService;
 
-  public JwtUtil(String secret, long expirationMillis) {
+  public JwtUtil(String secret, long expirationMillis, TokenBlacklistService tokenBlacklistService) {
     byte[] secretBytes = secret.getBytes(StandardCharsets.UTF_8);
     if (secret == null || secretBytes.length < 32) {
       throw new IllegalArgumentException("JWT secret must be at least 256 bits (32 bytes) long.");
     }
     this.key = Keys.hmacShaKeyFor(secretBytes);
     this.expirationMillis = expirationMillis;
+    this.tokenBlacklistService = tokenBlacklistService;
   }
 
   public String generateToken(String username) {
@@ -51,7 +54,15 @@ public class JwtUtil {
     return claims.getExpiration().before(new Date());
   }
 
+  public void invalidateToken(String token) {
+    tokenBlacklistService.blacklistToken(token);
+  }
+
   public boolean isTokenValid(String token, String username) {
+    if (tokenBlacklistService.isTokenBlacklisted(token)) {
+      log.info("JWT token is blacklisted.");
+      return false;
+    }
     try {
       String tokenUsername = extractUsernameFromToken(token);
       return tokenUsername != null && tokenUsername.equals(username) && !isTokenExpired(token);

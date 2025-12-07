@@ -1,5 +1,6 @@
 package com.github.esousacosta.ankiclone.config;
 
+import com.github.esousacosta.ankiclone.services.TokenBlacklistService;
 import com.github.esousacosta.ankiclone.services.UserService;
 import com.github.esousacosta.ankiclone.utils.security.JwtAuthenticationFilter;
 import com.github.esousacosta.ankiclone.utils.security.JwtUtil;
@@ -25,9 +26,16 @@ public class SecurityConfig {
   @Value("${jwt.expiration-ms}")
   private long jwtExpirationMillis; // 10 hours
 
+  private final TokenBlacklistService tokenBlacklistService;
+
+
+  public SecurityConfig(TokenBlacklistService tokenBlacklistService) {
+    this.tokenBlacklistService = tokenBlacklistService;
+  }
+
   @Bean
   public JwtUtil jwtUtil() {
-    return new JwtUtil(jwtSecret, jwtExpirationMillis);
+    return new JwtUtil(jwtSecret, jwtExpirationMillis, tokenBlacklistService);
   }
 
   @Bean

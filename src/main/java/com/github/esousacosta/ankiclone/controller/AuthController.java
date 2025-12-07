@@ -5,6 +5,7 @@ import com.github.esousacosta.ankiclone.models.dtos.UserDto;
 import com.github.esousacosta.ankiclone.services.AuthService;
 import com.github.esousacosta.ankiclone.services.UserService;
 import com.github.esousacosta.ankiclone.models.user.User;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -37,9 +38,14 @@ public class AuthController {
   @PostMapping(path = "/login")
   public String loginUser(@RequestBody @Valid LoginRequestDto loginRequest) {
     log.info("Auth - Login endpoint called for user: {}", loginRequest.getUsernameOrEmail());
-    // Authentication logic would go here
     return authService.createSession(loginRequest);
-//    return "Login successful for user: " + loginRequest.getUsernameOrEmail();
+  }
+
+  @PostMapping(path = "/logout")
+  public ResponseEntity<String> logoutUser(HttpServletRequest request) {
+    log.info("Auth - Logout endpoint called");
+    authService.logoutUser(request);
+    return ResponseEntity.ok("User logged out successfully.");
   }
 
 }
