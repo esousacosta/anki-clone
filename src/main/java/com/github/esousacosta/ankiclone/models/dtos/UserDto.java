@@ -8,19 +8,16 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class UserDto {
-  @NotBlank(message = "The user must have a non-empty first name")
-  private String firstName;
-  private String lastName;
-  @NotBlank(message = "The user must have a non-empty username")
-  private String username;
-  @NotBlank(message = "The user must have a non-empty password")
-  @ToString.Exclude
-  @EqualsAndHashCode.Exclude
-  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-  private String password;
-  private String email;
+public record UserDto(
+        @NotBlank(message = "The user must have a non-empty first name")
+        String firstName,
+        String lastName,
+        @NotBlank(message = "The user must have a non-empty username")
+        String username,
+        @NotBlank(message = "The user must have a non-empty password")
+        @ToString.Exclude
+        @EqualsAndHashCode.Exclude
+        @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+        String password,
+        String email) {
 }

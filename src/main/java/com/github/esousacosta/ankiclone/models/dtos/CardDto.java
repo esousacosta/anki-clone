@@ -1,15 +1,12 @@
 package com.github.esousacosta.ankiclone.models.dtos;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotBlank;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class CardDto {
-  private String front;
-  private String back;
-  private String category;
-  private Integer deckId;
+public record CardDto(
+        @NotBlank(message = "The card must have a non-empty front side")
+        String front,
+        @NotBlank(message = "The card must have a non-empty back side")
+        String back,
+        String category,
+        Integer deckId) {
 }

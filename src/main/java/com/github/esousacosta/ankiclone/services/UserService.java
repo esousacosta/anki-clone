@@ -3,6 +3,7 @@ package com.github.esousacosta.ankiclone.services;
 import com.github.esousacosta.ankiclone.models.dtos.UserDto;
 import com.github.esousacosta.ankiclone.models.user.*;
 import com.github.esousacosta.ankiclone.repositories.UserRepository;
+import com.github.esousacosta.ankiclone.utils.security.HelperTools;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,19 +24,19 @@ public class UserService {
 
     public User saveUser(UserDto user) throws IllegalArgumentException{
       // This is probably not needed since we have validation in the controller, but just in case
-      if (user.getPassword() == null || user.getPassword().length() < 8) {
+      if (user.password() == null || user.password().length() < 8) {
           throw new IllegalArgumentException("password must be at least 8 characters long.");
       }
 
       User newUser = new User();
-        newUser.setFirstName(user.getFirstName());
-        newUser.setLastName(user.getLastName());
-        newUser.setUsername(user.getUsername());
-        newUser.setEmail(user.getEmail());
+        newUser.setFirstName(user.firstName());
+        newUser.setLastName(user.lastName());
+        newUser.setUsername(user.username());
+        newUser.setEmail(user.email());
         // set creation timestamp using LocalDateTime
         newUser.setCreatedAt(LocalDateTime.now());
         // hash the password before saving
-        newUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        newUser.setPassword(passwordEncoder.encode(user.password()));
 
         return userRepository.save(newUser);
     }
@@ -59,5 +60,9 @@ public class UserService {
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    public User getAuthenticatedUser() {
+        return getUserByUsername(HelperTools.getAuthenticatedUserUsername());
     }
 }

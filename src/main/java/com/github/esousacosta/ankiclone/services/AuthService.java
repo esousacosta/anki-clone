@@ -23,10 +23,10 @@ public class AuthService {
 
   public String createSession(LoginRequestDto loginRequest) throws IllegalArgumentException {
     try {
-      User user = userService.getUserByUsername(loginRequest.getUsernameOrEmail());
+      User user = userService.getUserByUsername(loginRequest.usernameOrEmail());
       log.info("Attempting authentication for user: {}", user);
 
-      if (user == null || !passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+      if (user == null || !passwordEncoder.matches(loginRequest.password(), user.getPassword())) {
         throw new IllegalArgumentException("Invalid username or password.");
       }
 
@@ -34,7 +34,7 @@ public class AuthService {
       log.info("Password authentication successful for user: {}", user.getUsername());
       return jwtUtil.generateToken(user.getUsername());
     } catch (Exception e) {
-      log.info("Authentication failed for user: {}", loginRequest.getUsernameOrEmail());
+      log.info("Authentication failed for user: {}", loginRequest.usernameOrEmail());
       log.info("Error: {}", e.getMessage());
       throw new IllegalArgumentException("Invalid username or password.");
     }

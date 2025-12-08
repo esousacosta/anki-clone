@@ -31,13 +31,13 @@ public class AuthController {
     log.info("Auth - Register endpoint called");
     User created = userService.saveUser(user);
     // Exclude password from response
-    UserDto response = new UserDto(user.getFirstName(), user.getLastName(), user.getUsername(), null, user.getEmail());
+    UserDto response = new UserDto(user.firstName(), user.lastName(), user.username(), null, user.email());
     return ResponseEntity.created(null).body(response);
   }
 
   @PostMapping(path = "/login")
   public String loginUser(@RequestBody @Valid LoginRequestDto loginRequest) {
-    log.info("Auth - Login endpoint called for user: {}", loginRequest.getUsernameOrEmail());
+    log.info("Auth - Login endpoint called for user: {}", loginRequest.usernameOrEmail());
     return authService.createSession(loginRequest);
   }
 

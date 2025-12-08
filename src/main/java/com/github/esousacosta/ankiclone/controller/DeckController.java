@@ -26,6 +26,8 @@ public class DeckController {
 
   @GetMapping
   public List<Deck> getUserDecks() {
-    return deckService.getDecksByOwnerId(userService.getUserByUsername(getAuthenticatedUserUsername()).getId());
+    return deckService.getDecksByOwnerId(userService.getAuthenticatedUser().getId());
   }
+
+
 }
