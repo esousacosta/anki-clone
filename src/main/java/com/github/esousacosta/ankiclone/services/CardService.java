@@ -1,6 +1,7 @@
 package com.github.esousacosta.ankiclone.services;
 
 import com.github.esousacosta.ankiclone.models.card.Card;
+import com.github.esousacosta.ankiclone.models.dtos.CardDto;
 import com.github.esousacosta.ankiclone.models.user.User;
 import com.github.esousacosta.ankiclone.repositories.CardRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -21,8 +22,10 @@ public class CardService {
         this.userService = userService;
     }
 
-    public Card saveCard(Card card) {
-      return cardRepository.save(card);
+    public Card saveCard(CardDto card) {
+      //return cardRepository.save(card);
+      // Placeholder implementation
+      return new Card();
     }
 
     public Card getCardById(int id) throws NoSuchElementException{
