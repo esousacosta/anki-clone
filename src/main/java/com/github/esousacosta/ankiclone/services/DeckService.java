@@ -47,4 +47,11 @@ public class DeckService {
 
     deckRepository.save(existingDeck);
   }
+
+  public void deleteDeck(int deckId) {
+    Deck existingDeck = deckRepository.findById(deckId).
+        orElseThrow(() -> new NoSuchElementException("Deck with ID " + deckId + " not found."));
+
+    deckRepository.delete(existingDeck);
+  }
 }

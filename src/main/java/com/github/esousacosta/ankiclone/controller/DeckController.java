@@ -7,6 +7,7 @@ import com.github.esousacosta.ankiclone.services.UserService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,5 +48,12 @@ public class DeckController {
     // Implementation for updating a deck goes here
     deckService.updateDeck(id, deck);
     return ResponseEntity.ok("Deck updated successfully.");
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<String> deleteDeck(@PathVariable int id) {
+    // Implementation for deleting a deck goes here
+    deckService.deleteDeck(id);
+    return ResponseEntity.ok("Deck deleted successfully.");
   }
 }
