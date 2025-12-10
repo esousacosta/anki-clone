@@ -41,6 +41,8 @@ public class DeckService {
     Deck existingDeck = deckRepository.findById(deckId).
         orElseThrow(() -> new NoSuchElementException("Deck with ID " + deckId + " not found."));
 
+    verifyDeckOwnership(existingDeck);
+
     existingDeck.setName(deck.name());
     existingDeck.setUpdatedAt(LocalDateTime.now());
     existingDeck.setDescription(deck.description());
@@ -52,10 +54,14 @@ public class DeckService {
     Deck existingDeck = deckRepository.findById(deckId).
         orElseThrow(() -> new NoSuchElementException("Deck with ID " + deckId + " not found."));
 
-    if (!existingDeck.getOwner().getUsername().equals(userService.getAuthenticatedUser().getUsername())) {
-      throw new SecurityException("You do not have permission to delete this deck.");
-    }
+    verifyDeckOwnership(existingDeck);
 
     deckRepository.delete(existingDeck);
+  }
+
+  private void verifyDeckOwnership(Deck deck) {
+    if (!(deck.getOwner().getId() == userService.getAuthenticatedUser().getId())) {
+      throw new SecurityException("You do not have permission to access this deck.");
+    }
   }
 }
