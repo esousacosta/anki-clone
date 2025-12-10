@@ -42,7 +42,11 @@ public class ControllerExceptionHandler {
       return ResponseEntity.badRequest().body(response);
     }
 
-
+    @ExceptionHandler(SecurityException.class)
+    public ResponseEntity<ErrorResponse> securityExceptionHandler(SecurityException ex) {
+        ErrorResponse response = ErrorResponse.create(ex, HttpStatus.UNAUTHORIZED, ex.getMessage());
+        return ResponseEntity.badRequest().body(response);
+    }
 
     private static ValidationError toValidationError(FieldError fieldError) {
         return new ValidationError(fieldError.getField(), fieldError.getDefaultMessage(), fieldError.getCode());

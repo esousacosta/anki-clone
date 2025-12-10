@@ -52,6 +52,10 @@ public class DeckService {
     Deck existingDeck = deckRepository.findById(deckId).
         orElseThrow(() -> new NoSuchElementException("Deck with ID " + deckId + " not found."));
 
+    if (existingDeck.getOwner().getUsername() != userService.getAuthenticatedUser().getUsername()) {
+      throw new SecurityException("You do not have permission to delete this deck.");
+    }
+
     deckRepository.delete(existingDeck);
   }
 }
