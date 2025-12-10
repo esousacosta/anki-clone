@@ -8,7 +8,9 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,8 +37,15 @@ public class DeckController {
   }
 
   @PostMapping
-  public ResponseEntity<DeckDto> createDeck(@RequestBody @Valid DeckDto deck) {
-    deckService.createDeck(deck);
-    return ResponseEntity.created(null).body(deck);
+  public ResponseEntity<Deck> createDeck(@RequestBody @Valid DeckDto deck) {
+    Deck newDeck = deckService.createDeck(deck);
+    return ResponseEntity.created(null).body(newDeck);
+  }
+
+  @PutMapping("/{id}")
+  public ResponseEntity<String> updateDeck(@RequestBody @Valid DeckDto deck, @PathVariable int id) {
+    // Implementation for updating a deck goes here
+    deckService.updateDeck(id, deck);
+    return ResponseEntity.ok("Deck updated successfully.");
   }
 }

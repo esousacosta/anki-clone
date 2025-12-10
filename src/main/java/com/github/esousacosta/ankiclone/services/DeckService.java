@@ -4,10 +4,12 @@ import com.github.esousacosta.ankiclone.models.deck.Deck;
 import com.github.esousacosta.ankiclone.models.dtos.DeckDto;
 import com.github.esousacosta.ankiclone.models.user.User;
 import com.github.esousacosta.ankiclone.repositories.DeckRepository;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class DeckService {
@@ -24,15 +26,25 @@ public class DeckService {
   }
 
 
-  public DeckDto createDeck(DeckDto deck) {
+  public Deck createDeck(DeckDto deck) {
     User authenticatedUser = userService.getAuthenticatedUser();
 
     Deck newDeck = new Deck();
     newDeck.setName(deck.name());
     newDeck.setOwner(authenticatedUser);
     newDeck.setCreatedAt(LocalDateTime.now());
-    deckRepository.save(newDeck);
+    return deckRepository.save(newDeck);
+  }
 
-    return deck;
+  public void updateDeck(int deckId, DeckDto deck) {
+    // Implementation for updating a deck goes here
+    Deck existingDeck = deckRepository.findById(deckId).
+        orElseThrow(() -> new NoSuchElementException("Deck with ID " + deckId + " not found."));
+
+    existingDeck.setName(deck.name());
+    existingDeck.setUpdatedAt(LocalDateTime.now());
+    existingDeck.setDescription(deck.description());
+
+    deckRepository.save(existingDeck);
   }
 }

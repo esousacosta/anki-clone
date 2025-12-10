@@ -1,5 +1,6 @@
 package com.github.esousacosta.ankiclone.models.deck;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.esousacosta.ankiclone.models.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,7 +29,7 @@ public class Deck {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
-  @Column(name = "name", nullable = false)
+  @Column(name = "name", nullable = false, unique = true)
   private String name;
   @Column(name = "description", nullable = true)
   private String description;
@@ -37,6 +38,7 @@ public class Deck {
   @Column(name = "updated_at", nullable = true)
   private LocalDateTime updatedAt;
   @ManyToOne(optional = false)
+  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   @JoinColumn(name = "owner_id", referencedColumnName = "id")
   private User owner;
 }
