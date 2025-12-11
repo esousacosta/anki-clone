@@ -32,8 +32,8 @@ public class Card {
     private String category;
     @Column(name = "ease_factor", nullable = false)
     private double easeFactor;
-    @Column(name = "was_last_attempt_correct")
-    private boolean wasLastAttemptCorrect;
+    @Column(name = "was_last_attempt_correct", nullable = false)
+    private boolean wasLastAttemptCorrect = false;
     @Column(name = "last_reviewed", nullable = true)
     private LocalDateTime lastReviewed;
     @Column(name = "times_reviewed", nullable = false)

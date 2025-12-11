@@ -1,10 +1,10 @@
 -- Drop tables if they exist (in correct order due to foreign keys)
-DROP TABLE IF EXISTS cards CASCADE;
-DROP TABLE IF EXISTS decks CASCADE;
-DROP TABLE IF EXISTS users CASCADE;
+--DROP TABLE IF EXISTS cards CASCADE;
+--DROP TABLE IF EXISTS decks CASCADE;
+--DROP TABLE IF EXISTS users CASCADE;
 
 -- Create users table
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
     id BIGSERIAL PRIMARY KEY,
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255),
@@ -17,7 +17,7 @@ CREATE TABLE users (
 );
 
 -- Create decks table
-CREATE TABLE decks (
+CREATE TABLE IF NOT EXISTS decks (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT,
@@ -28,7 +28,7 @@ CREATE TABLE decks (
 );
 
 -- Create cards table
-CREATE TABLE cards (
+CREATE TABLE IF NOT EXISTS cards (
     id BIGSERIAL PRIMARY KEY,
     front TEXT NOT NULL,
     back TEXT NOT NULL,
@@ -48,7 +48,7 @@ CREATE TABLE cards (
 );
 
 -- Create indexes for better query performance
-CREATE INDEX idx_decks_user_id ON decks(owner_id);
-CREATE INDEX idx_cards_deck_id ON cards(deck_id);
-CREATE INDEX idx_cards_user_id ON cards(user_id);
-CREATE INDEX idx_cards_next_review ON cards(next_review_date);
+CREATE INDEX IF NOT EXISTS idx_decks_user_id ON decks(owner_id);
+CREATE INDEX IF NOT EXISTS idx_cards_deck_id ON cards(deck_id);
+CREATE INDEX IF NOT EXISTS idx_cards_user_id ON cards(user_id);
+CREATE INDEX IF NOT EXISTS idx_cards_next_review ON cards(next_review_date);
