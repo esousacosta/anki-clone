@@ -1,6 +1,6 @@
 package com.github.esousacosta.ankiclone.utils.security;
 
-import com.github.esousacosta.ankiclone.models.user.User;
+import com.github.esousacosta.ankiclone.data.models.user.User;
 import com.github.esousacosta.ankiclone.services.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

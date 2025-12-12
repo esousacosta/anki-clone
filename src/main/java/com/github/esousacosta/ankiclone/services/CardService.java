@@ -1,9 +1,8 @@
 package com.github.esousacosta.ankiclone.services;
 
-import com.github.esousacosta.ankiclone.models.card.Card;
-import com.github.esousacosta.ankiclone.models.deck.Deck;
-import com.github.esousacosta.ankiclone.models.dtos.CardDto;
-import com.github.esousacosta.ankiclone.models.user.User;
+import com.github.esousacosta.ankiclone.data.models.card.Card;
+import com.github.esousacosta.ankiclone.data.models.dtos.CardDto;
+import com.github.esousacosta.ankiclone.data.models.user.User;
 import com.github.esousacosta.ankiclone.repositories.CardRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -11,22 +10,33 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.time.LocalDateTime;
 
 @Service
 @Slf4j
 public class CardService {
     private final CardRepository cardRepository;
     private final UserService userService;
+    private final DeckService deckService;
 
-    public CardService(CardRepository cardRepository, UserService userService) {
+    public CardService(CardRepository cardRepository, UserService userService, DeckService deckService) {
         this.cardRepository = cardRepository;
         this.userService = userService;
+        this.deckService = deckService;
     }
 
     public Card saveCard(CardDto card) {
       //return cardRepository.save(card);
       // Placeholder implementation
-      return new Card();
+      Card newCard = new Card();
+      newCard.setFront(card.front());
+      newCard.setBack(card.back());
+      newCard.setCategory(card.category());
+      newCard.setUser(userService.getAuthenticatedUser());
+      newCard.setCreatedAt(LocalDateTime.now());
+      newCard.setDeck(deckService.getDeckById(card.deckId()));
+      newCard.setNextReviewDate(LocalDateTime.now());
+      return cardRepository.save(newCard);
     }
 
     public Card updateCard(int cardId, CardDto card) {
@@ -67,6 +77,9 @@ public class CardService {
   public void deleteCardById(int id) {
       Card card = getCardById(id);
       cardRepository.delete(card);
+      log.info("User '{}' deleted card with ID {}.",
+          userService.getAuthenticatedUser().getUsername(),
+          id);
   }
 
     public List<Card> getAllCards() {

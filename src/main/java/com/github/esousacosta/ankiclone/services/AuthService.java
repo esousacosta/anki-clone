@@ -1,7 +1,7 @@
 package com.github.esousacosta.ankiclone.services;
 
-import com.github.esousacosta.ankiclone.models.dtos.LoginRequestDto;
-import com.github.esousacosta.ankiclone.models.user.User;
+import com.github.esousacosta.ankiclone.data.models.dtos.LoginRequestDto;
+import com.github.esousacosta.ankiclone.data.models.user.User;
 import com.github.esousacosta.ankiclone.utils.security.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;

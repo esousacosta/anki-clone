@@ -1,7 +1,7 @@
-package com.github.esousacosta.ankiclone.models.card;
+package com.github.esousacosta.ankiclone.data.models.card;
 
-import com.github.esousacosta.ankiclone.models.deck.Deck;
-import com.github.esousacosta.ankiclone.models.user.User;
+import com.github.esousacosta.ankiclone.data.models.deck.Deck;
+import com.github.esousacosta.ankiclone.data.models.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,7 +31,7 @@ public class Card {
     @Column(name = "category", nullable = true)
     private String category;
     @Column(name = "ease_factor", nullable = false)
-    private double easeFactor;
+    private double easeFactor = 2.5;
     @Column(name = "was_last_attempt_correct", nullable = false)
     private boolean wasLastAttemptCorrect = false;
     @Column(name = "last_reviewed", nullable = true)
@@ -39,11 +39,13 @@ public class Card {
     @Column(name = "times_reviewed", nullable = false)
     private int timesReviewed;
     @Column(name = "next_review_date", nullable = false)
-    private LocalDateTime nextReviewDate;
+    private LocalDateTime nextReviewDate = LocalDateTime.now();
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
     @Column(name = "updated_at", nullable = true)
     private LocalDateTime updatedAt;
     @Column(name = "interval_days", nullable = false)
     private int intervalDays;
+    @Column(name = "current_consecutive_correct_answers", nullable = false)
+    private int currentConsecutiveCorrectAnswers = 0;
 }

@@ -1,6 +1,6 @@
 package com.github.esousacosta.ankiclone.repositories;
 
-import com.github.esousacosta.ankiclone.models.user.User;
+import com.github.esousacosta.ankiclone.data.models.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

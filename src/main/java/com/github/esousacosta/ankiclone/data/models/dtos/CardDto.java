@@ -1,4 +1,4 @@
-package com.github.esousacosta.ankiclone.models.dtos;
+package com.github.esousacosta.ankiclone.data.models.dtos;
 
 import jakarta.validation.constraints.NotBlank;
 

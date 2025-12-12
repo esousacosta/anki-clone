@@ -1,7 +1,7 @@
-package com.github.esousacosta.ankiclone.models.deck;
+package com.github.esousacosta.ankiclone.data.models.deck;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.esousacosta.ankiclone.models.user.User;
+import com.github.esousacosta.ankiclone.data.models.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

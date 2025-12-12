@@ -1,10 +1,9 @@
 package com.github.esousacosta.ankiclone.services;
 
-import com.github.esousacosta.ankiclone.models.deck.Deck;
-import com.github.esousacosta.ankiclone.models.dtos.DeckDto;
-import com.github.esousacosta.ankiclone.models.user.User;
+import com.github.esousacosta.ankiclone.data.models.deck.Deck;
+import com.github.esousacosta.ankiclone.data.models.dtos.DeckDto;
+import com.github.esousacosta.ankiclone.data.models.user.User;
 import com.github.esousacosta.ankiclone.repositories.DeckRepository;
-import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,6 +18,11 @@ public class DeckService {
   public DeckService(DeckRepository deckRepository, UserService userService) {
     this.deckRepository = deckRepository;
     this.userService = userService;
+  }
+
+  public Deck getDeckById(int id) throws NoSuchElementException {
+    return deckRepository.findById(id).
+        orElseThrow(() -> new NoSuchElementException("Deck with ID " + id + " not found."));
   }
 
   public List<Deck> getDecksByOwnerId(int ownerId) {

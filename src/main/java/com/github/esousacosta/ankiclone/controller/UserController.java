@@ -1,7 +1,7 @@
 package com.github.esousacosta.ankiclone.controller;
 
-import com.github.esousacosta.ankiclone.models.dtos.UserDto;
-import com.github.esousacosta.ankiclone.models.user.User;
+import com.github.esousacosta.ankiclone.data.models.dtos.UserDto;
+import com.github.esousacosta.ankiclone.data.models.user.User;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 

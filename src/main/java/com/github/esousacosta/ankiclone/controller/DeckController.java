@@ -1,7 +1,7 @@
 package com.github.esousacosta.ankiclone.controller;
 
-import com.github.esousacosta.ankiclone.models.deck.Deck;
-import com.github.esousacosta.ankiclone.models.dtos.DeckDto;
+import com.github.esousacosta.ankiclone.data.models.deck.Deck;
+import com.github.esousacosta.ankiclone.data.models.dtos.DeckDto;
 import com.github.esousacosta.ankiclone.services.DeckService;
 import com.github.esousacosta.ankiclone.services.UserService;
 import jakarta.validation.Valid;
@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
-import static com.github.esousacosta.ankiclone.utils.security.HelperTools.getAuthenticatedUserUsername;
 
 @RestController
 @Slf4j

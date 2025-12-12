@@ -1,10 +1,10 @@
 package com.github.esousacosta.ankiclone.controller;
 
-import com.github.esousacosta.ankiclone.models.dtos.LoginRequestDto;
-import com.github.esousacosta.ankiclone.models.dtos.UserDto;
+import com.github.esousacosta.ankiclone.data.models.dtos.LoginRequestDto;
+import com.github.esousacosta.ankiclone.data.models.dtos.UserDto;
 import com.github.esousacosta.ankiclone.services.AuthService;
 import com.github.esousacosta.ankiclone.services.UserService;
-import com.github.esousacosta.ankiclone.models.user.User;
+import com.github.esousacosta.ankiclone.data.models.user.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;

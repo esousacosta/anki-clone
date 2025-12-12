@@ -1,4 +1,4 @@
-package com.github.esousacosta.ankiclone.models.dtos;
+package com.github.esousacosta.ankiclone.data.models.dtos;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

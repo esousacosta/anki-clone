@@ -1,7 +1,7 @@
 package com.github.esousacosta.ankiclone.services;
 
-import com.github.esousacosta.ankiclone.models.dtos.UserDto;
-import com.github.esousacosta.ankiclone.models.user.*;
+import com.github.esousacosta.ankiclone.data.models.dtos.UserDto;
+import com.github.esousacosta.ankiclone.data.models.user.User;
 import com.github.esousacosta.ankiclone.repositories.UserRepository;
 import com.github.esousacosta.ankiclone.utils.security.HelperTools;
 import org.springframework.security.crypto.password.PasswordEncoder;

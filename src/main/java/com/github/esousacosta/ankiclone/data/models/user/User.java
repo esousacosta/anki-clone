@@ -1,4 +1,4 @@
-package com.github.esousacosta.ankiclone.models.user;
+package com.github.esousacosta.ankiclone.data.models.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
