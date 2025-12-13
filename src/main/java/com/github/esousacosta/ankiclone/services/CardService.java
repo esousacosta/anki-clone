@@ -2,6 +2,7 @@ package com.github.esousacosta.ankiclone.services;
 
 import com.github.esousacosta.ankiclone.data.enums.ReviewQuality;
 import com.github.esousacosta.ankiclone.data.models.card.Card;
+import com.github.esousacosta.ankiclone.data.models.deck.Deck;
 import com.github.esousacosta.ankiclone.data.models.dtos.CardDto;
 import com.github.esousacosta.ankiclone.data.models.user.User;
 import com.github.esousacosta.ankiclone.repositories.CardRepository;
@@ -99,9 +100,40 @@ public class CardService {
         return cardRepository.findAll();
     }
 
+  /**
+   * Get all cards that are due for review (nextReviewDate <= now) for the authenticated user.
+   * This is useful for showing the user which cards they should review.
+   */
+  public List<Card> getCardsDueForReview() {
+    User user = userService.getAuthenticatedUser();
+    return cardRepository.findByUserIdAndNextReviewDateLessThanEqual(
+        user.getId(),
+        LocalDateTime.now()
+    );
+  }
+
+  /**
+   * Get all cards due for review for a specific user.
+   */
+  public List<Card> getCardsDueForReview(User user) {
+    return cardRepository.findByUserIdAndNextReviewDateLessThanEqual(
+        user.getId(),
+        LocalDateTime.now()
+    );
+  }
+
+  public List<Card> getCardsDueForReviewInDeck(int deckId) {
+    Deck deck = deckService.getDeckById(deckId);
+    deckService.verifyDeckOwnership(deck);
+    return cardRepository.findByDeckIdAndNextReviewDateLessThanEqual(
+        deckId,
+        LocalDateTime.now()
+    );
+  }
+
 
   private void verifyCardOwnership(Card card) {
-    if (!(card.getUser().getId() == userService.getAuthenticatedUser().getId())) {
+    if (card.getUser().getId() != userService.getAuthenticatedUser().getId()) {
       throw new SecurityException("You do not have permission to access this card.");
     }
   }

@@ -1,5 +1,6 @@
 package com.github.esousacosta.ankiclone.services;
 
+import com.github.esousacosta.ankiclone.data.models.card.Card;
 import com.github.esousacosta.ankiclone.data.models.deck.Deck;
 import com.github.esousacosta.ankiclone.data.models.dtos.DeckDto;
 import com.github.esousacosta.ankiclone.data.models.user.User;
@@ -63,8 +64,8 @@ public class DeckService {
     deckRepository.delete(existingDeck);
   }
 
-  private void verifyDeckOwnership(Deck deck) {
-    if (!(deck.getOwner().getId() == userService.getAuthenticatedUser().getId())) {
+  public void verifyDeckOwnership(Deck deck) {
+    if (deck.getOwner().getId() != userService.getAuthenticatedUser().getId()) {
       throw new SecurityException("You do not have permission to access this deck.");
     }
   }

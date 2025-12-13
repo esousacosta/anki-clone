@@ -4,6 +4,7 @@ import com.github.esousacosta.ankiclone.data.models.card.Card;
 import com.github.esousacosta.ankiclone.data.models.dtos.CardDto;
 import com.github.esousacosta.ankiclone.data.models.dtos.CardReviewDto;
 import com.github.esousacosta.ankiclone.services.CardService;
+import com.github.esousacosta.ankiclone.services.DeckService;
 import com.github.esousacosta.ankiclone.services.UserService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +35,11 @@ public class CardController {
     @GetMapping
     public List<Card> getAllCardsForAuthenticatedUser() {
       return cardService.getCardsByUser(userService.getAuthenticatedUser());
+    }
+
+    @GetMapping(path = "/due")
+    public List<Card> getCardsDueForReview() {
+      return cardService.getCardsDueForReview();
     }
 
     @GetMapping(path = "/{id}")

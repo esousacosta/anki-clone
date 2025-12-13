@@ -1,7 +1,9 @@
 package com.github.esousacosta.ankiclone.controller;
 
+import com.github.esousacosta.ankiclone.data.models.card.Card;
 import com.github.esousacosta.ankiclone.data.models.deck.Deck;
 import com.github.esousacosta.ankiclone.data.models.dtos.DeckDto;
+import com.github.esousacosta.ankiclone.services.CardService;
 import com.github.esousacosta.ankiclone.services.DeckService;
 import com.github.esousacosta.ankiclone.services.UserService;
 import jakarta.validation.Valid;
@@ -24,10 +26,12 @@ import java.util.List;
 public class DeckController {
   private final DeckService deckService;
   private final UserService userService;
+  private final CardService cardService;
 
-  public DeckController(DeckService deckService, UserService userService) {
+  public DeckController(DeckService deckService, UserService userService, CardService cardService) {
     this.deckService = deckService;
     this.userService = userService;
+    this.cardService = cardService;
   }
 
   @GetMapping
@@ -53,5 +57,11 @@ public class DeckController {
     // Implementation for deleting a deck goes here
     deckService.deleteDeck(id);
     return ResponseEntity.ok("Deck deleted successfully.");
+  }
+
+  @GetMapping("/{id}/review")
+  public ResponseEntity<List<Card>> getCardsForReview(@PathVariable int id) {
+    List<Card> cardsForReview = cardService.getCardsDueForReviewInDeck(id);
+    return ResponseEntity.ok(cardsForReview);
   }
 }
