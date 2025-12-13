@@ -37,15 +37,15 @@ public class Card {
     @Column(name = "last_reviewed", nullable = true)
     private LocalDateTime lastReviewed;
     @Column(name = "times_reviewed", nullable = false)
-    private int timesReviewed;
+    private int timesReviewed = 0;
     @Column(name = "next_review_date", nullable = false)
     private LocalDateTime nextReviewDate = LocalDateTime.now();
     @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
     @Column(name = "updated_at", nullable = true)
     private LocalDateTime updatedAt;
     @Column(name = "interval_days", nullable = false)
-    private int intervalDays;
-    @Column(name = "current_consecutive_correct_answers", nullable = false)
-    private int currentConsecutiveCorrectAnswers = 0;
+    private int intervalDays = 1;
+    @Column(name = "current_streak", nullable = false)
+    private int currentStreak = 0;
 }

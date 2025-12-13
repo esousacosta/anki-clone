@@ -2,6 +2,7 @@ package com.github.esousacosta.ankiclone.controller;
 
 import com.github.esousacosta.ankiclone.data.models.card.Card;
 import com.github.esousacosta.ankiclone.data.models.dtos.CardDto;
+import com.github.esousacosta.ankiclone.data.models.dtos.CardReviewDto;
 import com.github.esousacosta.ankiclone.services.CardService;
 import com.github.esousacosta.ankiclone.services.UserService;
 import jakarta.validation.Valid;
@@ -52,6 +53,12 @@ public class CardController {
             createdCard.getCategory(),
             createdCard.getDeck().getId()
         );
+    }
+
+    @PostMapping(path = "/{id}/review")
+    public ResponseEntity<String> reviewCard(@PathVariable int id, @RequestBody @Valid CardReviewDto reviewRequest) {
+      cardService.reviewCard(id, reviewRequest.quality());
+      return ResponseEntity.ok("Card with ID {" + id + "} reviewed successfully.");
     }
 
     @PutMapping(path = "/{id}")

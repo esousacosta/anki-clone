@@ -1,5 +1,6 @@
 package com.github.esousacosta.ankiclone.services;
 
+import com.github.esousacosta.ankiclone.data.enums.ReviewQuality;
 import com.github.esousacosta.ankiclone.data.models.card.Card;
 import com.github.esousacosta.ankiclone.data.models.dtos.CardDto;
 import com.github.esousacosta.ankiclone.data.models.user.User;
@@ -18,11 +19,13 @@ public class CardService {
     private final CardRepository cardRepository;
     private final UserService userService;
     private final DeckService deckService;
+    private final SpacedRepetitionService spacedRepetitionService;
 
-    public CardService(CardRepository cardRepository, UserService userService, DeckService deckService) {
+    public CardService(CardRepository cardRepository, UserService userService, DeckService deckService, SpacedRepetitionService spacedRepetitionService) {
         this.cardRepository = cardRepository;
         this.userService = userService;
         this.deckService = deckService;
+        this.spacedRepetitionService = spacedRepetitionService;
     }
 
     public Card saveCard(CardDto card) {
@@ -82,7 +85,17 @@ public class CardService {
           id);
   }
 
-    public List<Card> getAllCards() {
+  public void reviewCard(int cardId, int quality) {
+      Card card = getCardById(cardId);
+      spacedRepetitionService.processCardReview(card, quality);
+      cardRepository.save(card);
+      log.info("User '{}' reviewed card with ID {} with quality {}.",
+          userService.getAuthenticatedUser().getUsername(),
+          cardId,
+          quality);
+  }
+
+  public List<Card> getAllCards() {
         return cardRepository.findAll();
     }
 
