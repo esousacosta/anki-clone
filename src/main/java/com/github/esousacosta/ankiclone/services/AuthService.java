@@ -1,6 +1,7 @@
 package com.github.esousacosta.ankiclone.services;
 
 import com.github.esousacosta.ankiclone.data.models.dtos.LoginRequestDto;
+import com.github.esousacosta.ankiclone.data.models.dtos.LoginResponseDto;
 import com.github.esousacosta.ankiclone.data.models.user.User;
 import com.github.esousacosta.ankiclone.utils.security.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,7 +22,7 @@ public class AuthService {
     this.jwtUtil = jwtUtil;
   }
 
-  public String createSession(LoginRequestDto loginRequest) throws IllegalArgumentException {
+  public LoginResponseDto createSession(LoginRequestDto loginRequest) throws IllegalArgumentException {
     try {
       User user = userService.getUserByUsername(loginRequest.usernameOrEmail());
       log.info("Attempting authentication for user: {}", user);
@@ -32,7 +33,7 @@ public class AuthService {
 
       // In a real application, you would return a JWT or session token here
       log.info("Password authentication successful for user: {}", user.getUsername());
-      return jwtUtil.generateToken(user.getUsername());
+      return new LoginResponseDto(jwtUtil.generateToken(user.getUsername()));
     } catch (Exception e) {
       log.info("Authentication failed for user: {}", loginRequest.usernameOrEmail());
       log.info("Error: {}", e.getMessage());

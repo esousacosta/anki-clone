@@ -1,6 +1,7 @@
 package com.github.esousacosta.ankiclone.controller;
 
 import com.github.esousacosta.ankiclone.data.models.dtos.LoginRequestDto;
+import com.github.esousacosta.ankiclone.data.models.dtos.LoginResponseDto;
 import com.github.esousacosta.ankiclone.data.models.dtos.UserDto;
 import com.github.esousacosta.ankiclone.services.AuthService;
 import com.github.esousacosta.ankiclone.services.UserService;
@@ -36,9 +37,9 @@ public class AuthController {
   }
 
   @PostMapping(path = "/login")
-  public String loginUser(@RequestBody @Valid LoginRequestDto loginRequest) {
+  public ResponseEntity<LoginResponseDto> loginUser(@RequestBody @Valid LoginRequestDto loginRequest) {
     log.info("Auth - Login endpoint called for user: {}", loginRequest.usernameOrEmail());
-    return authService.createSession(loginRequest);
+    return ResponseEntity.ok().body(authService.createSession(loginRequest));
   }
 
   @PostMapping(path = "/logout")

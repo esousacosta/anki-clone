@@ -19,5 +19,8 @@ public record UserDto(
         @EqualsAndHashCode.Exclude
         @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
         String password,
+        @NotBlank(message = "The user must have a non-empty email")
+        @ToString.Exclude
+        @EqualsAndHashCode.Exclude
         String email) {
 }
