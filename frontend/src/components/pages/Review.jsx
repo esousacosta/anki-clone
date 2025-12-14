@@ -14,6 +14,7 @@ Review.jsx — explanation
 */
 import React, { useEffect } from 'react';
 import deckService from '../../services/deckService';
+import './Review.css';
 
 /**
  * Review Component
@@ -69,27 +70,40 @@ const Review = () => {
     }, []);
 
     return (
-        <div style={{padding: '40px', textAlign: 'center'}}>
-            <h1>Review Page</h1>
-            {isLoading && <p>Loading decks...</p>}
-            {error && <p>Error getting the decks to Review</p>}
-            {!isLoading && !error && decks.length === 0 && <p>No decks available for review.</p>}
+        <div className="review-page">
+            <div className="review-header">
+                <h1>Review</h1>
+                <p className="muted">Choose a deck to start your review session</p>
+            </div>
+
+            {isLoading && (
+                <div className="status">Loading decks…</div>
+            )}
+
+            {error && (
+                <div className="status error">{error}</div>
+            )}
+
+            {!isLoading && !error && decks.length === 0 && (
+                <div className="status">No decks available for review.</div>
+            )}
+
             {!isLoading && !error && decks.length > 0 && (
-                <div>
-                    <h2>Available Decks:</h2>
-                    <ul style={{listStyleType: 'none', padding: 0}}>
-                        {decks.map((deck) => (
-                            <li key={deck.id}>
-                                Name: {deck.name}<br />
-                                Description: {deck.description}
-                                <br /><br />
-                            </li>
-                        ))}
-                    </ul>
+                <div className="decks-grid">
+                    {decks.map((deck) => (
+                        <article key={deck.id} className="deck-card">
+                            <h3 className="deck-title">{deck.name}</h3>
+                            <p className="deck-desc">{deck.description || 'No description'}</p>
+                            <div className="deck-meta">
+                                <span>{deck.cards?.length ?? 0} cards</span>
+                                <button className="btn primary">Start Review</button>
+                            </div>
+                        </article>
+                    ))}
                 </div>
             )}
         </div>
-    )
+    );
 }
 
 export default Review;
