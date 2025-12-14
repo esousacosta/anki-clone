@@ -1,4 +1,4 @@
-import api from './api';
+import api from "./api";
 
 /**
  * Authentication Service
@@ -14,12 +14,12 @@ const authService = {
    */
   login: async (username, password) => {
     try {
-      const response = await api.post('/auth/login', {
-        username,
+      const response = await api.post("/auth/login", {
+        usernameOrEmail: username,
         password,
       });
 
-      // The backend returns: { token: "jwt_token_here" }
+      // The backend returns: { token: "jwt_token_here"}
       return response.data;
     } catch (error) {
       throw error;
@@ -32,11 +32,14 @@ const authService = {
    * @param {string} password - Desired password
    * @returns {Promise} Response from server
    */
-  register: async (username, password) => {
+  register: async (email, username, password, givenName, familyName) => {
     try {
-      const response = await api.post('/auth/register', {
+      const response = await api.post("/auth/register", {
+        email,
         username,
         password,
+        firstName: givenName,
+        lastName: familyName,
       });
 
       return response.data;
@@ -52,7 +55,7 @@ const authService = {
    */
   logout: async () => {
     try {
-      const response = await api.post('/auth/logout');
+      const response = await api.post("/auth/logout");
       return response.data;
     } catch (error) {
       // Even if the backend call fails, we should clear local storage
@@ -62,4 +65,3 @@ const authService = {
 };
 
 export default authService;
-

@@ -148,9 +148,9 @@ export const AuthProvider = ({ children }) => {
    * Register function
    * Creates a new user account
    */
-  const register = async (username, password) => {
+  const register = async (username, password, givenName, familyName) => {
     try {
-      await authService.register(username, password);
+      await authService.register(username, password, givenName, familyName);
       return { success: true };
     } catch (error) {
       console.error('Registration error:', error);

@@ -70,6 +70,7 @@ const LoginPage = () => {
               placeholder="Enter your username"
               disabled={isLoading}
               autoComplete="username"
+              required
             />
           </div>
 
@@ -84,6 +85,7 @@ const LoginPage = () => {
               placeholder="Enter your password"
               disabled={isLoading}
               autoComplete="current-password"
+              required
             />
           </div>
 
