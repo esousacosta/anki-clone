@@ -24,9 +24,17 @@ const Review = () => {
     const [decks, setDecks] = React.useState([]);
     const [error, setError] = React.useState(null);
 
+    const fetchingRef = React.useRef(false);
+
     useEffect(() => {
+        console.log('Review mounted', new Date().toISOString());
         const controller = new AbortController();
         let mounted = true;
+        if (fetchingRef.current) {
+            console.log('Already fetching decks, aborting new fetch');
+            return;
+        }
+        fetchingRef.current = true;
         setError(null);
 
         const fetchDecks = async () => {
@@ -47,6 +55,7 @@ const Review = () => {
                 }
             } finally {
                 if (mounted) setIsLoading(false);
+                fetchingRef.current = false;
             }
         };
 
@@ -55,12 +64,30 @@ const Review = () => {
         return () => {
             mounted = false;
             controller.abort();
+            fetchingRef.current = false;
         };
     }, []);
 
     return (
         <div style={{padding: '40px', textAlign: 'center'}}>
             <h1>Review Page</h1>
+            {isLoading && <p>Loading decks...</p>}
+            {error && <p>Error getting the decks to Review</p>}
+            {!isLoading && !error && decks.length === 0 && <p>No decks available for review.</p>}
+            {!isLoading && !error && decks.length > 0 && (
+                <div>
+                    <h2>Available Decks:</h2>
+                    <ul style={{listStyleType: 'none', padding: 0}}>
+                        {decks.map((deck) => (
+                            <li key={deck.id}>
+                                Name: {deck.name}<br />
+                                Description: {deck.description}
+                                <br /><br />
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
         </div>
     )
 }
