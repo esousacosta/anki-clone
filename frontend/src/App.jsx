@@ -6,6 +6,7 @@ import PrivateRoute from './components/common/PrivateRoute';
 import LoginPage from './components/auth/LoginPage';
 import RegisterPage from './components/auth/RegisterPage';
 import Home from './components/Home';
+import Review from './components/pages/Review';
 import './App.css';
 
 /**
@@ -39,10 +40,7 @@ function App() {
               path="/review"
               element={
                 <PrivateRoute>
-                  <div style={{ padding: '40px', textAlign: 'center' }}>
-                    <h1>Review Page</h1>
-                    <p>Coming in Phase 2! 🚀</p>
-                  </div>
+                  <Review />
                 </PrivateRoute>
               }
             />
