@@ -13,6 +13,7 @@ Review.jsx — explanation
     - If used as a route page, wrap with layout components or fetch data inside useEffect.
 */
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import deckService from '../../services/deckService';
 import './Review.css';
 
@@ -24,6 +25,7 @@ const Review = () => {
     const [isLoading, setIsLoading] = React.useState(false);
     const [decks, setDecks] = React.useState([]);
     const [error, setError] = React.useState(null);
+    const navigate = useNavigate();
 
     const fetchingRef = React.useRef(false);
 
@@ -49,6 +51,8 @@ const Review = () => {
             } catch (err) {
                 // Ignore aborts
                 if (err.name === 'CanceledError' || err.name === 'AbortError') {
+                    // This may happen when the component unmounts before fetch completes
+                    // It is not an error we need to report to the user
                     console.log('Deck fetch aborted');
                 } else {
                     console.error('Error fetching decks', err);
@@ -96,7 +100,7 @@ const Review = () => {
                             <p className="deck-desc">{deck.description || 'No description'}</p>
                             <div className="deck-meta">
                                 <span>{deck.cards?.length ?? 0} cards</span>
-                                <button className="btn primary">Start Review</button>
+                                <button onClick={() => navigate(`/decks/${deck.id}/review`)} className="btn primary">Start Review</button>
                             </div>
                         </article>
                     ))}

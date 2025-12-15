@@ -7,6 +7,7 @@ import LoginPage from './components/auth/LoginPage';
 import RegisterPage from './components/auth/RegisterPage';
 import Home from './components/Home';
 import Review from './components/pages/Review';
+import DeckReviewPage from './components/pages/DeckReviewPage';
 import './App.css';
 
 /**
@@ -58,6 +59,15 @@ function App() {
             />
 
             <Route
+              path="/decks/:deckId/review"
+              element={
+                <PrivateRoute>
+                  <DeckReviewPage />
+                </PrivateRoute>
+              }
+            />
+
+            <Route
               path="/decks"
               element={
                 <PrivateRoute>
@@ -70,7 +80,7 @@ function App() {
             />
 
             {/* Catch-all route - redirect to home */}
-                <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </div>
       </Router>

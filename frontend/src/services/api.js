@@ -33,6 +33,11 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
+    // Handle aborts - let them pass through unchanged
+    if (error.name === "CanceledError" || error.code === "ERR_CANCELED") {
+      return Promise.reject(error);
+    }
+
     // Handle specific error cases
     if (error.response) {
       // The request was made and the server responded with a status code

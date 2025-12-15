@@ -5,6 +5,7 @@ import com.github.esousacosta.ankiclone.data.models.deck.Deck;
 import com.github.esousacosta.ankiclone.data.models.dtos.DeckDto;
 import com.github.esousacosta.ankiclone.data.models.user.User;
 import com.github.esousacosta.ankiclone.repositories.DeckRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
+@Slf4j
 public class DeckService {
   private final DeckRepository deckRepository;
   private final UserService userService;
@@ -27,6 +29,7 @@ public class DeckService {
   }
 
   public List<Deck> getDecksByOwnerId(int ownerId) {
+    log.info("Fetching decks for owner ID: {}", ownerId);
     return deckRepository.findByOwnerId(ownerId);
   }
 
