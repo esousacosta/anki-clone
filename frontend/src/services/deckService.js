@@ -18,10 +18,13 @@ const deckService = {
     return response.data;
   },
 
-  async fetchDeckById(deckId, signal) {
-    const response = await api.get(`/decks/${deckId}/review`, signal ? { signal } : undefined);
+  async fetchDeckCardsToReviewById(deckId, signal) {
+    const response = await api.get(
+      `/decks/${deckId}/review`,
+      signal ? { signal } : undefined
+    );
     return response.data;
-  }
+  },
 };
 
 export default deckService;

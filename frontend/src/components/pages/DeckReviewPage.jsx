@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
-import { useParams, useNavigate} from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import deckService from '../../services/deckService';
+import './DeckReviewPage.css';
 
 const DeckReviewPage = () => {
     const { deckId } = useParams();
@@ -8,6 +9,7 @@ const DeckReviewPage = () => {
     const [error, setError] = React.useState(null);
     const [cards, setCards] = React.useState([]);
     const [index, setIndex] = React.useState(0);
+    const [showBack, setShowBack] = React.useState(false);
     const navigate = useNavigate();
 
     //  This effect loads the deck’s cards when the component mounts or when deckId changes and protects against updates after unmount. Step-by-step:
@@ -73,9 +75,10 @@ const DeckReviewPage = () => {
             setIsLoading(true);
             setError(null);
             try {
-                const data = await deckService.fetchDeckById(deckId, controller.signal);
+                const data = await deckService.fetchDeckCardsToReviewById(deckId, controller.signal);
                 if (!mounted) return;
-                setCards(data.cards ?? []);
+                console.log('Cards for review fetched:', data);
+                setCards(data ?? []);
             } catch (err) {
                 if (err.name === 'CanceledError' || err.name === 'AbortError') return;
                 console.error('Error fetching cards for review for this deck', err);
@@ -100,14 +103,21 @@ const DeckReviewPage = () => {
             {error && <p style={{ color: 'red' }}>{error}</p>}
             {!isLoading && !error && cards.length === 0 && <p>No cards available for review in this deck.</p>}
             {!isLoading && !error && cards.length > 0 && (
-                <div>
+                <div className="card-review">
                     <h2>Reviewing Card {index + 1} of {cards.length}</h2>
-                    <p><strong>Front:</strong> {cards[index].front}</p>
-                    <p><strong>Back:</strong> {cards[index].back}</p>
-                    <button
+                    <p className="card-content">{showBack ? <><strong>Back:</strong> {cards[index].back}</> : <><strong>Front:</strong> {cards[index].front}</>}</p>
+                    <button className="toggle-button"
+                        onClick={() => {
+                            setShowBack(!showBack);
+                        }}
+                    >
+                        {showBack ? "Show Front" : "Show Back"}
+                    </button>
+                    <button className="next-button"
                         onClick={() => {
                             if (index + 1 < cards.length) {
                                 setIndex(index + 1);
+                                setShowBack(false);
                             } else {
                                 alert('Review session completed!');
                                 navigate('/');
