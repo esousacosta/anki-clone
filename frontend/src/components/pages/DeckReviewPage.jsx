@@ -15,7 +15,6 @@ const DeckReviewPage = () => {
     const [backVisible, setBackVisible] = React.useState(false);
     const [hasViewedBack, setHasViewedBack] = React.useState(false);
     const [cardReviewed, setCardReviewed] = React.useState(false);
-    const [isFlipping, setIsFlipping] = React.useState(false);
     const navigate = useNavigate();
 
     //  This effect loads the deck’s cards when the component mounts or when deckId changes and protects against updates after unmount. Step-by-step:
@@ -102,6 +101,18 @@ const DeckReviewPage = () => {
         };
     }, [deckId]);
 
+    const handleMoveToNextCard = () => {
+        if (index + 1 < cards.length) {
+            setIndex(index + 1);
+            setBackVisible(false);
+            setHasViewedBack(false);
+            setCardReviewed(false);
+        } else {
+            alert('Review session completed!');
+            navigate('/review');
+        }
+    };
+
     return (
         <div style={{ padding: '40px', textAlign: 'center' }}>
             <h1>Deck Review Page</h1>
@@ -110,6 +121,9 @@ const DeckReviewPage = () => {
             {!isLoading && !error && cards.length === 0 && <p>No cards available for review in this deck.</p>}
             {!isLoading && !error && cards.length > 0 && (
                 <div className="card-review">
+                    <div className="card-review-status">
+                        <p>Card {index + 1} of {cards.length}</p>
+                    </div>
                     <div className="card-flip-container">
                         <div className={`card-flip-content ${backVisible ? 'flipped' : ''}`}>
                             <div className="card-flip-front">
@@ -120,6 +134,32 @@ const DeckReviewPage = () => {
                             </div>
                         </div>
                     </div>
+                    {hasViewedBack && !cardReviewed && <div className="rate-buttons">
+                        <button className="rate-button again"
+                            onClick={() => {
+                                cardService.reviewCard(cards[index].id, REVIEW_RATINGS.AGAIN)
+                                handleMoveToNextCard();
+                            }}>
+                            Again</button>
+                        <button className="rate-button hard"
+                            onClick={() => {
+                                cardService.reviewCard(cards[index].id, REVIEW_RATINGS.HARD)
+                                handleMoveToNextCard();
+                            }}>
+                            Hard</button>
+                        <button className="rate-button good"
+                            onClick={() => {
+                                cardService.reviewCard(cards[index].id, REVIEW_RATINGS.GOOD)
+                                handleMoveToNextCard();
+                            }}>
+                            Good</button>
+                        <button className="rate-button easy"
+                            onClick={() => {
+                                cardService.reviewCard(cards[index].id, REVIEW_RATINGS.EASY)
+                                handleMoveToNextCard();
+                            }}>
+                            Easy</button>
+                    </div>}
                     <button className="toggle-button"
                         onClick={() => {
                             setBackVisible(!backVisible);
@@ -131,46 +171,10 @@ const DeckReviewPage = () => {
                         {backVisible ? "Show Front" : "Show Back"}
                     </button>
                     <button className="next-button"
-                        onClick={() => {
-                            if (index + 1 < cards.length) {
-                                setIndex(index + 1);
-                                setBackVisible(false);
-                                setHasViewedBack(false);
-                                setCardReviewed(false);
-                            } else {
-                                alert('Review session completed!');
-                                navigate('/review');
-                            }
-                        }}
+                        onClick={handleMoveToNextCard}
                     >
                         Next
                     </button>
-                    {hasViewedBack && !cardReviewed && <div className="rate-buttons">
-                        <button className="rate-button again"
-                            onClick={() => {
-                                cardService.reviewCard(cards[index].id, REVIEW_RATINGS.AGAIN)
-                                setCardReviewed(true);
-                            }}>
-                            Again</button>
-                        <button className="rate-button hard"
-                            onClick={() => {
-                                cardService.reviewCard(cards[index].id, REVIEW_RATINGS.HARD)
-                                setCardReviewed(true);
-                            }}>
-                            Hard</button>
-                        <button className="rate-button good"
-                            onClick={() => {
-                                cardService.reviewCard(cards[index].id, REVIEW_RATINGS.GOOD)
-                                setCardReviewed(true);
-                            }}>
-                            Good</button>
-                        <button className="rate-button easy"
-                            onClick={() => {
-                                cardService.reviewCard(cards[index].id, REVIEW_RATINGS.EASY)
-                                setCardReviewed(true);
-                            }}>
-                            Easy</button>
-                    </div>}
                 </div>
             )}
         </div>
