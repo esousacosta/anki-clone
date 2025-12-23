@@ -36,7 +36,7 @@ public class SpacedRepetitionService {
       card.setIntervalDays(MIN_INTERVAL_DAYS);
       card.setCurrentStreak(0);
       card.setWasLastAttemptCorrect(false);
-      card.setNextReviewDate(LocalDateTime.now().plusDays(MIN_INTERVAL_DAYS));
+      card.setNextReviewDate(LocalDateTime.now());
 
       // Only reduce ease factor if card was already in review phase (streak > 0 before)
       // This matches Anki's behavior of not penalizing new cards
