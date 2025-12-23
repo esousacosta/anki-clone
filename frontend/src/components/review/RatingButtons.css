@@ -1,0 +1,27 @@
+.rate-buttons {
+    margin-bottom: 40px;
+}
+
+.rate-buttons button {
+    background-color: #6c757d;
+    color: white;
+    margin: 0 5px;
+}
+
+.rate-buttons button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.rate-buttons button:hover:enabled {
+    background-color: #5a6268;
+    transform: translateY(-2px);
+}
+.rate-buttons button:active:enabled {
+    transform: translateY(0);
+}
+
+.rate-button.again { background-color: #dc3545; } /* Red */
+.rate-button.hard { background-color: #ffc107; }  /* Yellow */
+.rate-button.good { background-color: #28a745; }  /* Green */
+.rate-button.easy { background-color: #17a2b8; }  /* Teal */

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import deckService from '../../services/deckService';
 import cardService from '../../services/cardService';
-import { REVIEW_RATINGS } from '../../constants/reviewRatings';
+import RatingButtons from './RatingButtons';
 
 import './DeckReviewPage.css';
 
@@ -140,32 +140,13 @@ const DeckReviewPage = () => {
                             </div>
                         </div>
                     </div>
-                    {hasViewedBack && !cardReviewed && <div className="rate-buttons">
-                        <button className="rate-button again"
-                            onClick={() => {
-                                cardService.reviewCard(cards[index].id, REVIEW_RATINGS.AGAIN)
+                    <RatingButtons
+                        hasViewedBack={hasViewedBack}
+                        cardReviewed={cardReviewed}
+                        onRate = {(rating) => {
+                                cardService.reviewCard(cards[index].id, rating)
                                 handleMoveToNextCard();
-                            }}>
-                            Again</button>
-                        <button className="rate-button hard"
-                            onClick={() => {
-                                cardService.reviewCard(cards[index].id, REVIEW_RATINGS.HARD)
-                                handleMoveToNextCard();
-                            }}>
-                            Hard</button>
-                        <button className="rate-button good"
-                            onClick={() => {
-                                cardService.reviewCard(cards[index].id, REVIEW_RATINGS.GOOD)
-                                handleMoveToNextCard();
-                            }}>
-                            Good</button>
-                        <button className="rate-button easy"
-                            onClick={() => {
-                                cardService.reviewCard(cards[index].id, REVIEW_RATINGS.EASY)
-                                handleMoveToNextCard();
-                            }}>
-                            Easy</button>
-                    </div>}
+                            }}/>
                     <button className="toggle-button"
                         onClick={() => {
                             setBackVisible(!backVisible);

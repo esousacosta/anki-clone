@@ -6,8 +6,8 @@ import PrivateRoute from './components/common/PrivateRoute';
 import LoginPage from './components/auth/LoginPage';
 import RegisterPage from './components/auth/RegisterPage';
 import Home from './components/Home';
-import Review from './components/pages/Review';
-import DeckReviewPage from './components/pages/DeckReviewPage';
+import Review from './components/review/Review';
+import DeckReviewPage from './components/review/DeckReviewPage';
 import './App.css';
 
 /**
