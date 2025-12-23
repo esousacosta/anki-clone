@@ -143,10 +143,16 @@ const DeckReviewPage = () => {
                     <RatingButtons
                         hasViewedBack={hasViewedBack}
                         cardReviewed={cardReviewed}
-                        onRate = {(rating) => {
-                                cardService.reviewCard(cards[index].id, rating)
+                        onRate={async (rating) => {
+                            try {
+                                await cardService.reviewCard(cards[index].id, rating)
                                 handleMoveToNextCard();
-                            }}/>
+                            } catch (err) {
+                                console.error('Failed to save rating:', err);
+                                alert('Failed to save rating. Please try again.');
+                                // Optionally show an error to the user
+                            }
+                        }} />
                     <button className="toggle-button"
                         onClick={() => {
                             setBackVisible(!backVisible);
