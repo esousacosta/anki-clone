@@ -15,6 +15,7 @@ const DeckReviewPage = () => {
     const [backVisible, setBackVisible] = React.useState(false);
     const [hasViewedBack, setHasViewedBack] = React.useState(false);
     const [cardReviewed, setCardReviewed] = React.useState(false);
+    const [deckName, setDeckName] = React.useState('');
     const navigate = useNavigate();
 
     //  This effect loads the deck’s cards when the component mounts or when deckId changes and protects against updates after unmount. Step-by-step:
@@ -84,6 +85,11 @@ const DeckReviewPage = () => {
                 if (!mounted) return;
                 console.log('Cards for review fetched:', data);
                 setCards(data ?? []);
+
+                const deckData = await deckService.fetchDeckById(deckId, controller.signal);
+                if (!mounted) return;
+                console.log('Deck data fetched:', deckData);
+                setDeckName(deckData.name ?? '');
             } catch (err) {
                 if (err.name === 'CanceledError' || err.name === 'AbortError') return;
                 console.error('Error fetching cards for review for this deck', err);
@@ -115,7 +121,7 @@ const DeckReviewPage = () => {
 
     return (
         <div style={{ padding: '40px', textAlign: 'center' }}>
-            <h1>Deck Review Page</h1>
+            <h1>{deckName} Deck</h1>
             {isLoading && <p>Loading cards for review...</p>}
             {error && <p style={{ color: 'red' }}>{error}</p>}
             {!isLoading && !error && cards.length === 0 && <p>No cards available for review in this deck.</p>}
@@ -127,10 +133,10 @@ const DeckReviewPage = () => {
                     <div className="card-flip-container">
                         <div className={`card-flip-content ${backVisible ? 'flipped' : ''}`}>
                             <div className="card-flip-front">
-                                <p className="card-content"><strong>Front:</strong> {cards[index].front}</p>
+                                <p className="card-content"><strong>Front:&nbsp;</strong> {cards[index].front}</p>
                             </div>
                             <div className="card-flip-back">
-                                <p className="card-content"><strong>Back:</strong> {cards[index].back}</p>
+                                <p className="card-content"><strong>Back:&nbsp;</strong> {cards[index].back}</p>
                             </div>
                         </div>
                     </div>
