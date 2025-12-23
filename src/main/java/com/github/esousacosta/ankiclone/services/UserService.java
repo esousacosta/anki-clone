@@ -65,4 +65,15 @@ public class UserService {
     public User getAuthenticatedUser() {
         return getUserByUsername(HelperTools.getAuthenticatedUserUsername());
     }
+
+    public void deleteUser(int id) {
+        User user = getUserById(id);
+        userRepository.delete(user);
+    }
+
+    public void updateUserLastLoginDateToNow(int id) {
+        User user = getUserById(id);
+        user.setLastLoginDate(LocalDateTime.now());
+        userRepository.save(user);
+    }
 }

@@ -39,6 +39,14 @@ public class DeckController {
     return deckService.getDecksByOwnerId(userService.getAuthenticatedUser().getId());
   }
 
+  @GetMapping("/{id}")
+  public ResponseEntity<DeckDto> getDeckById(@PathVariable int id) {
+    log.info("Fetching deck with ID: {}", id);
+    Deck deck = deckService.getDeckById(id);
+    DeckDto deckDto = new DeckDto(deck.getName(), deck.getDescription());
+    return ResponseEntity.ok(deckDto);
+  }
+
   @PostMapping
   public ResponseEntity<Deck> createDeck(@RequestBody @Valid DeckDto deck) {
     Deck newDeck = deckService.createDeck(deck);

@@ -31,8 +31,8 @@ public class AuthService {
         throw new IllegalArgumentException("Invalid username or password.");
       }
 
-      // In a real application, you would return a JWT or session token here
       log.info("Password authentication successful for user: {}", user.getUsername());
+      userService.updateUserLastLoginDateToNow(user.getId());
       return new LoginResponseDto(jwtUtil.generateToken(user.getUsername()));
     } catch (Exception e) {
       log.info("Authentication failed for user: {}", loginRequest.usernameOrEmail());
