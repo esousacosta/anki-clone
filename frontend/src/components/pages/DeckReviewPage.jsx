@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import deckService from '../../services/deckService';
+import cardService from '../../services/cardService';
+import { REVIEW_RATINGS } from '../../constants/reviewRatings';
+
 import './DeckReviewPage.css';
 
 const DeckReviewPage = () => {
@@ -9,7 +12,10 @@ const DeckReviewPage = () => {
     const [error, setError] = React.useState(null);
     const [cards, setCards] = React.useState([]);
     const [index, setIndex] = React.useState(0);
-    const [showBack, setShowBack] = React.useState(false);
+    const [backVisible, setBackVisible] = React.useState(false);
+    const [hasViewedBack, setHasViewedBack] = React.useState(false);
+    const [cardReviewed, setCardReviewed] = React.useState(false);
+    const [isFlipping, setIsFlipping] = React.useState(false);
     const navigate = useNavigate();
 
     //  This effect loads the deck’s cards when the component mounts or when deckId changes and protects against updates after unmount. Step-by-step:
@@ -104,28 +110,67 @@ const DeckReviewPage = () => {
             {!isLoading && !error && cards.length === 0 && <p>No cards available for review in this deck.</p>}
             {!isLoading && !error && cards.length > 0 && (
                 <div className="card-review">
-                    <h2>Reviewing Card {index + 1} of {cards.length}</h2>
-                    <p className="card-content">{showBack ? <><strong>Back:</strong> {cards[index].back}</> : <><strong>Front:</strong> {cards[index].front}</>}</p>
+                    <div className="card-flip-container">
+                        <div className={`card-flip-content ${backVisible ? 'flipped' : ''}`}>
+                            <div className="card-flip-front">
+                                <p className="card-content"><strong>Front:</strong> {cards[index].front}</p>
+                            </div>
+                            <div className="card-flip-back">
+                                <p className="card-content"><strong>Back:</strong> {cards[index].back}</p>
+                            </div>
+                        </div>
+                    </div>
                     <button className="toggle-button"
                         onClick={() => {
-                            setShowBack(!showBack);
+                            setBackVisible(!backVisible);
+                            if (!hasViewedBack && !backVisible) {
+                                setHasViewedBack(true);
+                            }
                         }}
                     >
-                        {showBack ? "Show Front" : "Show Back"}
+                        {backVisible ? "Show Front" : "Show Back"}
                     </button>
                     <button className="next-button"
                         onClick={() => {
                             if (index + 1 < cards.length) {
                                 setIndex(index + 1);
-                                setShowBack(false);
+                                setBackVisible(false);
+                                setHasViewedBack(false);
+                                setCardReviewed(false);
                             } else {
                                 alert('Review session completed!');
-                                navigate('/');
+                                navigate('/review');
                             }
                         }}
                     >
                         Next
                     </button>
+                    {hasViewedBack && !cardReviewed && <div className="rate-buttons">
+                        <button className="rate-button again"
+                            onClick={() => {
+                                cardService.reviewCard(cards[index].id, REVIEW_RATINGS.AGAIN)
+                                setCardReviewed(true);
+                            }}>
+                            Again</button>
+                        <button className="rate-button hard"
+                            onClick={() => {
+                                cardService.reviewCard(cards[index].id, REVIEW_RATINGS.HARD)
+                                setCardReviewed(true);
+                            }}>
+                            Hard</button>
+                        <button className="rate-button good"
+                            onClick={() => {
+                                cardService.reviewCard(cards[index].id, REVIEW_RATINGS.GOOD)
+                                setCardReviewed(true);
+                            }}>
+                            Good</button>
+                        <button className="rate-button easy"
+                            onClick={() => {
+                                cardService.reviewCard(cards[index].id, REVIEW_RATINGS.EASY)
+                                setCardReviewed(true);
+                            }}>
+                            Easy</button>
+                    </div>}
                 </div>
             )}
         </div>
