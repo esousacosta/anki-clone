@@ -1,6 +1,40 @@
+/* Deck Review Header */
+
+.deck-review-container {
+    padding: 40px;
+    text-align: 'center';
+    --max-width: 600px;
+}
+
+.deck-review-header-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    max-width: var(--max-width);
+    margin: auto;
+}
+
+.deck-review-header-container button {
+    /* The arrow icon is skewed towards the bottom */
+    padding: 3px 8px 5px 8px;
+    margin-right: auto;
+    /* new */
+}
+
+.deck-review-header-container h1 {
+    flex: 0 1 auto;
+    /* width: 150px;
+    height: 100px; */
+    position: absolute;
+    /* new */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 /* Card Review Container */
 .card-review {
-    max-width: 600px;
+    max-width: var(--max-width);
     margin: 40px auto;
     padding: 30px;
     background: #f9f9f9;

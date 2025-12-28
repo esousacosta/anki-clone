@@ -120,8 +120,11 @@ const DeckReviewPage = () => {
     };
 
     return (
-        <div style={{ padding: '40px', textAlign: 'center' }}>
-            <h1>{deckName} Deck</h1>
+        <div className='deck-review-container'>
+            <div className='deck-review-header-container'>
+                <button className='toggle-button' onClick={() => navigate(-1)}>⬅</button>
+                <h1>{deckName} Deck</h1>
+            </div>
             {isLoading && <p>Loading cards for review...</p>}
             {error && <p style={{ color: 'red' }}>{error}</p>}
             {!isLoading && !error && cards.length === 0 && <p>No cards available for review in this deck.</p>}

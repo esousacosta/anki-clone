@@ -19,7 +19,6 @@ import './Review.css';
 
 /**
  * Review Component
- * Displays a simple review page placeholder
  */
 const Review = () => {
     const [isLoading, setIsLoading] = React.useState(false);
