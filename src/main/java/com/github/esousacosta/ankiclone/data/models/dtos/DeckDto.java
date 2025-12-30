@@ -8,5 +8,7 @@ import jakarta.validation.constraints.NotBlank;
 public record DeckDto(
         @NotBlank(message = "The deck must have a non-empty name")
         String name,
-        String description) {
+        String description,
+        Integer numberOfCardsToReview,
+        Integer id) {
 }

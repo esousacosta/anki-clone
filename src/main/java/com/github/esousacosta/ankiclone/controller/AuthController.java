@@ -30,7 +30,7 @@ public class AuthController {
   @PostMapping(path = "/register")
   public ResponseEntity<UserDto> registerUser(@RequestBody @Valid UserDto user) {
     log.info("Auth - Register endpoint called");
-    User created = userService.saveUser(user);
+    userService.saveUser(user);
     // Exclude password from response
     UserDto response = new UserDto(user.firstName(), user.lastName(), user.username(), null, user.email());
     return ResponseEntity.created(null).body(response);

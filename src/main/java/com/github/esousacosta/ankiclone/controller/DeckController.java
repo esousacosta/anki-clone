@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @Slf4j
@@ -35,15 +36,22 @@ public class DeckController {
   }
 
   @GetMapping
-  public List<Deck> getUserDecks() {
-    return deckService.getDecksByOwnerId(userService.getAuthenticatedUser().getId());
+  public List<DeckDto> getUserDecks() {
+    List<Deck> decks = deckService.getDecksByOwnerId(userService.getAuthenticatedUser().getId());
+    // This change made fetching all decks considerably more expensive than it was.
+    // Could I cache this data inside the deck itself? Or create an index of deck -> totalCardsToReview?
+    List<DeckDto> deckDtos = decks.stream().map(d -> new DeckDto(
+      d.getName(), d.getDescription(), cardService.getCardsDueForReviewInDeck(d.getId()).size(), d.getId())
+    ).collect(Collectors.toList());
+    return deckDtos;
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<DeckDto> getDeckById(@PathVariable int id) {
     log.info("Fetching deck with ID: {}", id);
     Deck deck = deckService.getDeckById(id);
-    DeckDto deckDto = new DeckDto(deck.getName(), deck.getDescription());
+    List<Card> cardsForReview = cardService.getCardsDueForReviewInDeck(id);
+    DeckDto deckDto = new DeckDto(deck.getName(), deck.getDescription(), cardsForReview.size(), deck.getId());
     return ResponseEntity.ok(deckDto);
   }
 
@@ -71,5 +79,11 @@ public class DeckController {
   public ResponseEntity<List<Card>> getCardsForReview(@PathVariable int id) {
     List<Card> cardsForReview = cardService.getCardsDueForReviewInDeck(id);
     return ResponseEntity.ok(cardsForReview);
+  }
+
+  @GetMapping("/{id}/review/count")
+  public ResponseEntity<Integer> getCardsForReviewCount(@PathVariable int id) {
+    List<Card> cardsForReview = cardService.getCardsDueForReviewInDeck(id);
+    return ResponseEntity.ok(cardsForReview.size());
   }
 }
