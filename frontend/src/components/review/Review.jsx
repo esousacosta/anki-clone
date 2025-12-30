@@ -98,7 +98,7 @@ const Review = () => {
                             <h3 className="deck-title">{deck.name}</h3>
                             <p className="deck-desc">{deck.description || 'No description'}</p>
                             <div className="deck-meta">
-                                <span>{deck.cards?.length ?? 0} cards</span>
+                                <span>{deck.numberOfCardsToReview ?? 0} cards</span>
                                 <button onClick={() => navigate(`/decks/${deck.id}/review`)} className="btn primary">Start Review</button>
                             </div>
                         </article>
